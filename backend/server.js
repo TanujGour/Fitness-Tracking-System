@@ -205,7 +205,18 @@ app.get("/profile", auth, async (req, res) => {
 
 app.put("/profile", auth, async (req, res) => {
   try {
-    const { fullName, email, phone, dob, age, weight, height, goalSteps, photoUrl } = req.body;
+    const {
+      fullName,
+      email,
+      phone,
+      dob,
+      age,
+      weight,
+      height,
+      goalSteps,
+      photoUrl,
+    } = req.body;
+
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).send("User not found");
 
@@ -213,14 +224,24 @@ app.put("/profile", auth, async (req, res) => {
     user.profile.email = email ?? user.profile.email;
     user.profile.phone = phone ?? user.profile.phone;
     user.profile.dob = dob ?? user.profile.dob;
-    user.profile.age = Number(age ?? user.profile.age);
-    user.profile.weight = Number(weight ?? user.profile.weight);
-    user.profile.height = Number(height ?? user.profile.height);
-    user.profile.goalSteps = Number(goalSteps ?? user.profile.goalSteps);
-    user.profile.photoUrl = photoUrl ?? user.profile.photoUrl;
+    user.profile.age = age !== "" && age !== undefined ? Number(age) : user.profile.age;
+    user.profile.weight = weight !== "" && weight !== undefined ? Number(weight) : user.profile.weight;
+    user.profile.height = height !== "" && height !== undefined ? Number(height) : user.profile.height;
+    user.profile.goalSteps =
+      goalSteps !== "" && goalSteps !== undefined
+        ? Number(goalSteps)
+        : user.profile.goalSteps;
+
+    if (photoUrl !== undefined) {
+      user.profile.photoUrl = photoUrl;
+    }
 
     await user.save();
-    res.json({ message: "Profile updated successfully", profile: user.profile });
+
+    res.json({
+      message: "Profile updated successfully",
+      profile: user.profile,
+    });
   } catch (err) {
     console.error("Profile update error:", err);
     res.status(500).send("Failed to update profile");

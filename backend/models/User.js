@@ -41,21 +41,18 @@ const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
 
-  profile: {
-    fullName: { type: String, default: "" },
-    email: { type: String, default: "" },
-    phone: { type: String, default: "" },
-    dob: { type: String, default: "" },
-    age: { type: Number, default: 0 },
-    weight: { type: Number, default: 0 },
-    height: { type: Number, default: 0 },
-    goalSteps: { type: Number, default: 10000 },
-    photoUrl: {
-      type: String,
-      default:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80",
-    },
-  },
+profile: {
+  fullName: { type: String, default: "" },
+  email: { type: String, default: "" },
+  phone: { type: String, default: "" },
+  dob: { type: String, default: "" },
+  age: { type: Number, default: 0 },
+  weight: { type: Number, default: 0 },
+  height: { type: Number, default: 0 }, // store in cm
+  goalSteps: { type: Number, default: 10000 },
+  photoUrl: { type: String, default: "" }
+},
+
 
   data: [activitySchema],
   planner: [plannerSchema],
