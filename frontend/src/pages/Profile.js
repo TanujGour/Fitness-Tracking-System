@@ -130,21 +130,40 @@ function Profile() {
     }
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+ const handleImageUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const imageData = reader.result;
-      setProfile((prev) => ({
-        ...prev,
-        photoUrl: imageData,
-      }));
-      localStorage.setItem("photo", imageData);
-    };
-    reader.readAsDataURL(file);
+  const img = new Image();
+  const reader = new FileReader();
+
+  reader.onload = (event) => {
+    img.src = event.target.result;
   };
+
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    const maxWidth = 400;
+    const scale = maxWidth / img.width;
+
+    canvas.width = maxWidth;
+    canvas.height = img.height * scale;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+
+    setProfile((prev) => ({
+      ...prev,
+      photoUrl: compressedBase64,
+    }));
+
+    localStorage.setItem("photo", compressedBase64);
+  };
+
+  reader.readAsDataURL(file);
+};
 
   useEffect(() => {
     fetchProfile();
