@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import {
@@ -21,8 +21,6 @@ import {
   FaTint,
   FaMoon,
   FaSun,
-  FaUserCircle,
-  FaSignOutAlt,
   FaCalculator,
   FaClipboardList,
   FaBed,
@@ -43,6 +41,7 @@ ChartJS.register(
 );
 
 function Dashboard() {
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [steps, setSteps] = useState("");
   const [calories, setCalories] = useState("");
   const [fitnessData, setFitnessData] = useState([]);
@@ -50,7 +49,7 @@ function Dashboard() {
   const [planner, setPlanner] = useState([]);
   const [meals, setMeals] = useState([]);
   const [profile, setProfile] = useState({ goalSteps: 10000 });
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
@@ -71,7 +70,6 @@ function Dashboard() {
       text: "Hi! I’m your fitness assistant. Ask me about workouts, water, sleep, BMI, or diet.",
     },
   ]);
-
   const [darkMode, setDarkMode] = useState(false);
  
   const location = useLocation();

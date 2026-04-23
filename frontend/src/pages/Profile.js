@@ -56,7 +56,7 @@ function Profile() {
   const saveProfile = async () => {
     try {
       await axios.put(
-        "http://localhost:5000/profile",
+        `${API_URL}/profile`,
         {
           fullName: profile.fullName,
           email: profile.email,

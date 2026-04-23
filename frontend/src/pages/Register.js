@@ -41,7 +41,7 @@ function Register() {
         try {
           const profile = jwtDecode(response.credential);
 
-          const res = await axios.post("http://localhost:5000/google-login", {
+          const res = await axios.post(`${API_URL}/google-login`, {
             credential: response.credential,
             profile,
           });
@@ -66,7 +66,7 @@ function Register() {
       shape: "pill",
       width: 320,
     });
-  }, [navigate]);
+  }, [navigate, API_URL]);
 
   return (
     <div className="auth-modern-page register-modern-bg">
