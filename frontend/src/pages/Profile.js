@@ -6,7 +6,8 @@ import { FaCamera, FaPen, FaEnvelope, FaPhoneAlt, FaBirthdayCake } from "react-i
 function Profile() {
   const token = localStorage.getItem("token");
   const fileInputRef = useRef(null);
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const API_URL = process.env.REACT_APP_API_URL;
+  console.log("API_URL:", API_URL);
 
   const [profile, setProfile] = useState({
     username: "",
