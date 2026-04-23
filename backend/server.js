@@ -7,8 +7,15 @@ const { OAuth2Client } = require("google-auth-library");
 require("dotenv").config();
 
 const app = express();
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://fitness-training-system.vercel.app"
+  ],
+  credentials: true
+}));
+
 app.use(express.json());
-app.use(cors());
 
 const User = require("./models/User");
 
