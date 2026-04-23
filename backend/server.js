@@ -13,7 +13,7 @@ app.use(cors());
 const User = require("./models/User");
 
 const GOOGLE_CLIENT_ID = "592965798708-vj3ekp140gv3neg2jaj71du2jm6kojsc.apps.googleusercontent.com";
-const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -119,7 +119,7 @@ app.post("/google-login", async (req, res) => {
 
     const ticket = await googleClient.verifyIdToken({
       idToken: credential,
-      audience: GOOGLE_CLIENT_ID,
+      audience: process.env.GOOGLE_CLIENT_ID, // ✅ FIXED
     });
 
     const payload = ticket.getPayload();
@@ -134,45 +134,53 @@ app.post("/google-login", async (req, res) => {
 
     let user = await User.findOne({ username: email });
 
+    // ✅ CREATE USER IF NOT EXISTS
     if (!user) {
       const hashed = await bcrypt.hash("google_login_user", 10);
 
       user = new User({
-  username: email,
-  password: hashed,
-  profile: {
-    fullName: name,
-    email: email,
-    goalSteps: 10000,
-    photoUrl: picture,
-  },
-  planner: [
-    { title: "30 min cardio", completed: false },
-    { title: "Drink 2L water", completed: false },
-    { title: "Stretching session", completed: false },
-  ],
-  meals: [],
-  healthLogs: [],
-  data: [],
-});
+        username: email,
+        password: hashed,
+        profile: {
+          fullName: name,
+          email: email,
+          goalSteps: 10000,
+          photoUrl: picture,
+        },
+        planner: [
+          { title: "30 min cardio", completed: false },
+          { title: "Drink 2L water", completed: false },
+          { title: "Stretching session", completed: false },
+        ],
+        meals: [],
+        healthLogs: [],
+        data: [],
+      });
 
-     if (user && !user.profile.photoUrl && payload.picture) {
-  user.profile.photoUrl = payload.picture;
-  await user.save();
-}
+      await user.save(); // ✅ VERY IMPORTANT
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    // ✅ UPDATE PHOTO IF MISSING
+    if (!user.profile.photoUrl && picture) {
+      user.profile.photoUrl = picture;
+      await user.save();
+    }
+
+    // ✅ CREATE TOKEN
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
     res.json({
       token,
       username: user.profile?.fullName || user.username,
     });
+
   } catch (err) {
     console.error("Google login error:", err);
-    res.status(401).send(err.message);
+    res.status(401).send("Google authentication failed");
   }
 });
 
