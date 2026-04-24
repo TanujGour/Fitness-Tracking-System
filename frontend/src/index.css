@@ -1174,3 +1174,14 @@ th {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+.page-container {
+  padding: 30px;
+  color: white;
+}
+
+.card {
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
