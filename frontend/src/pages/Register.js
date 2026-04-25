@@ -8,7 +8,7 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const googleBtnRef = useRef(null);
   const navigate = useNavigate();
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   console.log("API_URL:", API_URL);
 
   const GOOGLE_CLIENT_ID = "592965798708-vj3ekp140gv3neg2jaj71du2jm6kojsc.apps.googleusercontent.com";
