@@ -114,7 +114,6 @@ function Dashboard() {
 
  useEffect(() => {
   fetchDashboardData();
-// eslint-disable-next-line
 }, []);
 
   const addData = async () => {
@@ -683,6 +682,34 @@ function Dashboard() {
           
         </section>
       </div>
+      )}
+
+      {path === "/activity" && (
+        <div className="dashboard-container">
+          <h1>Activity Tracking</h1>
+          <p>Track your steps, calories, and daily fitness records here.</p>
+        </div>
+      )}
+
+      {path === "/health" && (
+        <div className="dashboard-container">
+          <h1>Health Tracker</h1>
+          <p>Track water, sleep, BMI, and health logs here.</p>
+        </div>
+      )}
+
+      {path === "/planner" && (
+        <div className="dashboard-container">
+          <h1>Workout & Meal Planner</h1>
+          <p>Manage workout tasks and meal plans here.</p>
+        </div>
+      )}
+
+      {path === "/ai" && (
+        <div className="dashboard-container">
+          <h1>AI Fitness Coach</h1>
+          <p>Get AI-based fitness suggestions and chatbot support here.</p>
+        </div>
       )}
     </div>
               
