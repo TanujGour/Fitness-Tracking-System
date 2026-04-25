@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import axios from "axios";
 import {
   Chart as ChartJS,
@@ -41,7 +41,7 @@ ChartJS.register(
 );
 
 function Dashboard() {
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   console.log("API_URL:", API_URL);
   const [steps, setSteps] = useState("");
   const [calories, setCalories] = useState("");
@@ -79,7 +79,7 @@ function Dashboard() {
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username") || "User";
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       const [dataRes, healthRes, plannerRes, mealsRes, profileRes] = await Promise.all([
         axios.get(`${API_URL}/data`, {
@@ -110,11 +110,11 @@ function Dashboard() {
     } catch (error) {
       alert("Failed to load dashboard data");
     }
-  };
+  });
 
  useEffect(() => {
   fetchDashboardData();
-}, []);
+}, [fetchDashboardData]);
 
   const addData = async () => {
     if (!steps || !calories) {
