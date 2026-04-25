@@ -110,7 +110,7 @@ function Dashboard() {
     } catch (error) {
       alert("Failed to load dashboard data");
     }
-  });
+  }, [API_URL, token]);
 
  useEffect(() => {
   fetchDashboardData();
