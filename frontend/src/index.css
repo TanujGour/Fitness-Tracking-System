@@ -1185,102 +1185,182 @@ th {
   border-radius: 12px;
   margin-top: 10px;
 }
-/* ================= PREMIUM BRIGHT BACKGROUNDS ================= */
+/* ================= DARK PREMIUM BLACK/BROWN THEME FIX ================= */
 
-.landing-page {
-  min-height: 100vh;
+.landing-page,
+.login-modern-bg,
+.register-modern-bg,
+.dashboard-page,
+.profile-page {
   background:
-    linear-gradient(135deg, rgba(255, 122, 89, 0.88), rgba(124, 58, 237, 0.86), rgba(37, 99, 235, 0.86)),
-    url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1800&q=80");
-  background-size: cover;
-  background-position: center;
+    linear-gradient(135deg, rgba(5, 5, 5, 0.94), rgba(40, 24, 14, 0.92), rgba(92, 54, 25, 0.88)),
+    url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1800&q=80") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
 }
 
-.login-modern-bg {
-  min-height: 100vh;
-  background:
-    linear-gradient(135deg, rgba(14, 165, 233, 0.88), rgba(99, 102, 241, 0.86), rgba(236, 72, 153, 0.78)),
-    url("https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1800&q=80");
-  background-size: cover;
-  background-position: center;
-}
-
-.register-modern-bg {
-  min-height: 100vh;
-  background:
-    linear-gradient(135deg, rgba(34, 197, 94, 0.84), rgba(59, 130, 246, 0.84), rgba(168, 85, 247, 0.8)),
-    url("https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1800&q=80");
-  background-size: cover;
-  background-position: center;
-}
-
-.dashboard-page {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.18), transparent 28%),
-    linear-gradient(135deg, #f97316 0%, #ec4899 32%, #7c3aed 64%, #2563eb 100%);
-  background-attachment: fixed;
-}
-
-/* Premium glass overlay for auth pages */
-.auth-modern-card {
-  background: rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: blur(18px);
-  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.25);
-}
-
-.auth-side-content {
-  color: #ffffff !important;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
-}
-
-.side-point {
-  background: rgba(255, 255, 255, 0.18) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(14px);
-}
-
-/* Premium navbar */
+/* navbar */
 .navbar {
-  background: rgba(255, 255, 255, 0.16) !important;
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
+  background: rgba(18, 12, 8, 0.88) !important;
+  border-bottom: 1px solid rgba(212, 163, 115, 0.35) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.45) !important;
 }
 
-.nav-links a,
-.logo {
-  color: #ffffff !important;
-  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+.logo,
+.nav-links a {
+  color: #f8ead8 !important;
 }
 
-/* Dashboard cards brighter */
-.glass-card,
-.stat-card,
-.goal-box {
-  background: rgba(255, 255, 255, 0.88) !important;
-  color: #172554;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.18);
-  backdrop-filter: blur(18px);
+.nav-links a:hover {
+  color: #d4a373 !important;
+}
+
+/* hero */
+.hero-section {
+  background: rgba(24, 15, 10, 0.78) !important;
+  border: 1px solid rgba(212, 163, 115, 0.35) !important;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45) !important;
 }
 
 .hero-section h1,
 .hero-section p {
-  color: #ffffff !important;
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  color: #fff7ed !important;
 }
 
+/* cards */
+.glass-card,
+.stat-card,
+.goal-box,
+.ai-card,
+.tip-card,
+.sleep-card,
+.progress-card,
+.bmi-card,
+.streak-card,
+.quick-metrics {
+  background: rgba(255, 247, 237, 0.94) !important;
+  color: #1c130d !important;
+  border: 1px solid rgba(212, 163, 115, 0.45) !important;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35) !important;
+}
+
+.glass-card h1,
+.glass-card h2,
+.glass-card h3,
+.stat-card h3,
+.goal-box h3,
+.ai-card h2,
+.tip-card h2,
+.sleep-card h2,
+.progress-card h2,
+.bmi-card h2,
+.streak-card h2,
+.quick-metrics h2 {
+  color: #3b2414 !important;
+}
+
+.glass-card p,
+.stat-card p,
+.goal-box p,
+.ai-card p,
+.tip-card p,
+.sleep-card p,
+.progress-card p,
+.bmi-card p,
+.streak-card p,
+.quick-metrics li {
+  color: #2b1a10 !important;
+}
+
+/* fix dashboard number visibility */
+.stat-card p {
+  color: #5a2e0c !important;
+  font-weight: 900 !important;
+}
+
+/* inputs */
+input,
+select,
+textarea,
+.styled-select {
+  background: #fffaf3 !important;
+  color: #1c130d !important;
+  border: 1px solid rgba(92, 54, 25, 0.35) !important;
+}
+
+input::placeholder {
+  color: #7c5b43 !important;
+}
+
+/* buttons */
 .primary-btn,
 .btn-primary {
-  background: linear-gradient(135deg, #ff7a18, #ec4899, #2563eb) !important;
+  background: linear-gradient(135deg, #7c2d12, #a16207, #d97706) !important;
+  color: #fff7ed !important;
   border: none !important;
-  color: white !important;
-  box-shadow: 0 14px 30px rgba(236, 72, 153, 0.35);
+  box-shadow: 0 12px 28px rgba(120, 53, 15, 0.35) !important;
 }
 
 .primary-btn:hover,
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 38px rgba(37, 99, 235, 0.38);
+  box-shadow: 0 18px 38px rgba(120, 53, 15, 0.5) !important;
+}
+
+/* profile/logout/theme */
+.user-pill {
+  background: rgba(255, 247, 237, 0.16) !important;
+  color: #fff7ed !important;
+  border: 1px solid rgba(212, 163, 115, 0.35) !important;
+}
+
+.theme-btn {
+  background: #d97706 !important;
+  color: #1c130d !important;
+}
+
+.logout-btn {
+  background: #7f1d1d !important;
+  color: #fff7ed !important;
+}
+
+/* auth cards */
+.auth-modern-card {
+  background: rgba(255, 247, 237, 0.94) !important;
+  color: #1c130d !important;
+}
+
+.auth-modern-card h2 {
+  color: #3b2414 !important;
+}
+
+.auth-modern-card p {
+  color: #4b2e1c !important;
+}
+
+.auth-side-content {
+  color: #fff7ed !important;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.55) !important;
+}
+
+.side-point {
+  background: rgba(30, 18, 10, 0.65) !important;
+  color: #fff7ed !important;
+  border: 1px solid rgba(212, 163, 115, 0.28) !important;
+}
+
+/* tables */
+table {
+  background: #fffaf3 !important;
+  color: #1c130d !important;
+}
+
+th {
+  background: #4a2c16 !important;
+  color: #fff7ed !important;
+}
+
+td {
+  color: #1c130d !important;
 }
