@@ -1364,3 +1364,50 @@ th {
 td {
   color: #1c130d !important;
 }
+.dashboard-page.light-theme {
+  background:
+    linear-gradient(135deg, rgba(255, 247, 237, 0.92), rgba(245, 222, 179, 0.88), rgba(212, 163, 115, 0.86)),
+    url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1800&q=80") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
+}
+
+.dashboard-page.light-theme .navbar {
+  background: rgba(255, 247, 237, 0.9) !important;
+}
+
+.dashboard-page.light-theme .logo,
+.dashboard-page.light-theme .nav-links a {
+  color: #3b2414 !important;
+}
+
+.dashboard-page.light-theme .hero-section h1,
+.dashboard-page.light-theme .hero-section p {
+  color: #3b2414 !important;
+  text-shadow: none !important;
+}
+
+/* Dark mode */
+.dashboard-page.dark-theme {
+  background:
+    linear-gradient(135deg, rgba(5, 5, 5, 0.94), rgba(40, 24, 14, 0.92), rgba(92, 54, 25, 0.88)),
+    url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1800&q=80") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
+}
+
+.dashboard-page.dark-theme .navbar {
+  background: rgba(18, 12, 8, 0.88) !important;
+}
+
+.dashboard-page.dark-theme .logo,
+.dashboard-page.dark-theme .nav-links a {
+  color: #f8ead8 !important;
+}
+
+.dashboard-page.dark-theme .hero-section h1,
+.dashboard-page.dark-theme .hero-section p {
+  color: #fff7ed !important;
+}
