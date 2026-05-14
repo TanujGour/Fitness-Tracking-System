@@ -1185,3 +1185,102 @@ th {
   border-radius: 12px;
   margin-top: 10px;
 }
+/* ================= PREMIUM BRIGHT BACKGROUNDS ================= */
+
+.landing-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(255, 122, 89, 0.88), rgba(124, 58, 237, 0.86), rgba(37, 99, 235, 0.86)),
+    url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1800&q=80");
+  background-size: cover;
+  background-position: center;
+}
+
+.login-modern-bg {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(14, 165, 233, 0.88), rgba(99, 102, 241, 0.86), rgba(236, 72, 153, 0.78)),
+    url("https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1800&q=80");
+  background-size: cover;
+  background-position: center;
+}
+
+.register-modern-bg {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(34, 197, 94, 0.84), rgba(59, 130, 246, 0.84), rgba(168, 85, 247, 0.8)),
+    url("https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1800&q=80");
+  background-size: cover;
+  background-position: center;
+}
+
+.dashboard-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.18), transparent 28%),
+    linear-gradient(135deg, #f97316 0%, #ec4899 32%, #7c3aed 64%, #2563eb 100%);
+  background-attachment: fixed;
+}
+
+/* Premium glass overlay for auth pages */
+.auth-modern-card {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.25);
+}
+
+.auth-side-content {
+  color: #ffffff !important;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+}
+
+.side-point {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(14px);
+}
+
+/* Premium navbar */
+.navbar {
+  background: rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
+}
+
+.nav-links a,
+.logo {
+  color: #ffffff !important;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Dashboard cards brighter */
+.glass-card,
+.stat-card,
+.goal-box {
+  background: rgba(255, 255, 255, 0.88) !important;
+  color: #172554;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(18px);
+}
+
+.hero-section h1,
+.hero-section p {
+  color: #ffffff !important;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+.primary-btn,
+.btn-primary {
+  background: linear-gradient(135deg, #ff7a18, #ec4899, #2563eb) !important;
+  border: none !important;
+  color: white !important;
+  box-shadow: 0 14px 30px rgba(236, 72, 153, 0.35);
+}
+
+.primary-btn:hover,
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(37, 99, 235, 0.38);
+}
