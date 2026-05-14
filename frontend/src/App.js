@@ -19,6 +19,7 @@ function App() {
         <Route path="/health" element={<Dashboard />} />
         <Route path="/planner" element={<Dashboard />} />
         <Route path="/ai" element={<Dashboard />} />
+        <Route path="/gyms" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

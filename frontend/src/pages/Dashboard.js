@@ -50,6 +50,10 @@ function Dashboard() {
   const [planner, setPlanner] = useState([]);
   const [meals, setMeals] = useState([]);
   const [profile, setProfile] = useState({ goalSteps: 10000 });
+  const [userLocation, setUserLocation] = useState(null);
+  const [nearbyGyms, setNearbyGyms] = useState([]);
+  const [gymLoading, setGymLoading] = useState(false);
+  const [gymError, setGymError] = useState("");
 
 
   const [weight, setWeight] = useState("");
@@ -364,6 +368,133 @@ function Dashboard() {
     localStorage.removeItem("username");
     window.location.href = "/login";
   };
+  const calculateDistanceKm = (lat1, lon1, lat2, lon2) => {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return (R * c).toFixed(2);
+};
+
+const getGymAddress = (tags = {}) => {
+  const addressParts = [
+    tags["addr:housenumber"],
+    tags["addr:street"],
+    tags["addr:suburb"],
+    tags["addr:city"],
+    tags["addr:state"],
+    tags["addr:postcode"],
+  ].filter(Boolean);
+
+  return addressParts.length
+    ? addressParts.join(", ")
+    : tags.name
+    ? "Address not available. Open map for exact location."
+    : "Address not available.";
+};
+
+const fetchNearbyGyms = async (lat, lon) => {
+  try {
+    setGymLoading(true);
+    setGymError("");
+
+    const radius = 5000;
+
+    const query = `
+      [out:json][timeout:25];
+      (
+        node["leisure"="fitness_centre"](around:${radius},${lat},${lon});
+        way["leisure"="fitness_centre"](around:${radius},${lat},${lon});
+        relation["leisure"="fitness_centre"](around:${radius},${lat},${lon});
+        node["sport"="fitness"](around:${radius},${lat},${lon});
+        way["sport"="fitness"](around:${radius},${lat},${lon});
+      );
+      out center tags;
+    `;
+
+    const response = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      body: query,
+    });
+
+    const result = await response.json();
+
+    const gyms = result.elements
+      .map((place) => {
+        const gymLat = place.lat || place.center?.lat;
+        const gymLon = place.lon || place.center?.lon;
+
+        if (!gymLat || !gymLon) return null;
+
+        return {
+          id: `${place.type}-${place.id}`,
+          name: place.tags?.name || "Unnamed Fitness Centre",
+          address: getGymAddress(place.tags),
+          lat: gymLat,
+          lon: gymLon,
+          distance: calculateDistanceKm(lat, lon, gymLat, gymLon),
+          mapsUrl: `https://www.google.com/maps/dir/?api=1&destination=${gymLat},${gymLon}`,
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => Number(a.distance) - Number(b.distance))
+      .slice(0, 15);
+
+    setNearbyGyms(gyms);
+
+    if (gyms.length === 0) {
+      setGymError("No gyms found nearby. Try again from another location or increase search radius later.");
+    }
+  } catch (error) {
+    console.error(error);
+    setGymError("Failed to fetch nearby gyms. Please try again.");
+  } finally {
+    setGymLoading(false);
+  }
+};
+
+const requestLocationAndFindGyms = () => {
+  if (!navigator.geolocation) {
+    setGymError("Location access is not supported by this browser.");
+    return;
+  }
+
+  setGymLoading(true);
+  setGymError("");
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      setUserLocation({ lat, lon });
+      fetchNearbyGyms(lat, lon);
+    },
+    (error) => {
+      console.error(error);
+      setGymLoading(false);
+
+      if (error.code === 1) {
+        setGymError("Location permission denied. Please allow location access to find nearby gyms.");
+      } else {
+        setGymError("Unable to get your location. Please try again.");
+      }
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0,
+    }
+  );
+};
 
   return (
     <div className={`dashboard-page ${darkMode ? "dark-theme" : "light-theme"}`}>
@@ -375,6 +506,7 @@ function Dashboard() {
     <Link to="/health">Health</Link>
     <Link to="/planner">Planner</Link>
     <Link to="/ai">AI Coach</Link>
+    <Link to="/gyms">Nearby Gyms</Link>
   </div>
 
   <div className="nav-right">
@@ -905,8 +1037,74 @@ function Dashboard() {
     </div>
   </div>
 )}
-    </div>
-              
+{path === "/gyms" && (
+  <div className="dashboard-container page-feature-section">
+    <section className="premium-dashboard-hero">
+      <div>
+        <span className="dashboard-badge">Location Based Search</span>
+        <h1>Find Nearby Gyms</h1>
+        <p>
+          Allow location access to discover fitness centres and gyms near your
+          current location with address and directions.
+        </p>
+
+        <div className="dashboard-quick-actions">
+          <button className="quick-action-btn" onClick={requestLocationAndFindGyms}>
+            Use My Location
+          </button>
+
+          <Link to="/dashboard" className="quick-action-btn">
+            Back to Dashboard
+          </Link>
+        </div>
+      </div>
+
+      <div className="premium-goal-card">
+        <h3>Search Radius</h3>
+        <p>5 km</p>
+        <small>
+          {userLocation
+            ? `Lat: ${userLocation.lat.toFixed(3)}, Lon: ${userLocation.lon.toFixed(3)}`
+            : "Location not shared yet"}
+        </small>
+      </div>
+    </section>
+
+    {gymLoading && (
+      <div className="glass-card">
+        <h2>Searching nearby gyms...</h2>
+        <p>Please wait while we fetch nearby fitness centres.</p>
+      </div>
+    )}
+
+    {gymError && (
+      <div className="glass-card">
+        <h2>Notice</h2>
+        <p>{gymError}</p>
+      </div>
+    )}
+
+    <section className="gym-results-grid">
+      {nearbyGyms.map((gym) => (
+        <div className="gym-card" key={gym.id}>
+          <div>
+            <span className="gym-badge">Gym</span>
+            <h2>{gym.name}</h2>
+            <p>{gym.address}</p>
+          </div>
+
+          <div className="gym-card-footer">
+            <strong>{gym.distance} km away</strong>
+            <a href={gym.mapsUrl} target="_blank" rel="noreferrer">
+              Get Directions
+            </a>
+          </div>
+        </div>
+      ))}
+    </section>
+  </div>
+)}
+    </div>         
   );
 }
 
