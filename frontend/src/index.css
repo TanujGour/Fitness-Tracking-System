@@ -1473,7 +1473,6 @@ td {
   border: 1px solid rgba(212, 163, 115, 0.35) !important;
 }
 
-/* Theme button readable */
 .dashboard-page.light-theme .theme-btn {
   background: #d97706 !important;
   color: #111827 !important;
@@ -1482,4 +1481,32 @@ td {
 .dashboard-page.dark-theme .theme-btn {
   background: #d97706 !important;
   color: #111827 !important;
+}
+.page-feature-section {
+  padding-top: 40px;
+}
+
+.page-feature-section .hero-section {
+  margin-bottom: 30px;
+}
+
+.page-feature-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.page-feature-section th,
+.page-feature-section td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(120, 53, 15, 0.18);
+  text-align: left;
+}
+
+.page-feature-section .main-grid {
+  gap: 25px;
+}
+
+.page-feature-section .glass-card {
+  margin-bottom: 25px;
 }
