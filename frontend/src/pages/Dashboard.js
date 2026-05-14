@@ -406,21 +406,7 @@ const fetchNearbyGyms = async (lat, lon) => {
     setGymLoading(true);
     setGymError("");
 
-    const radius = 5000;
-
-    const query = `
-      [out:json][timeout:25];
-      (
-        node["leisure"="fitness_centre"](around:${radius},${lat},${lon});
-        way["leisure"="fitness_centre"](around:${radius},${lat},${lon});
-        relation["leisure"="fitness_centre"](around:${radius},${lat},${lon});
-        node["sport"="fitness"](around:${radius},${lat},${lon});
-        way["sport"="fitness"](around:${radius},${lat},${lon});
-      );
-      out center tags;
-    `;
-
-    const response = await fetch(`${API_URL}/nearby-gyms`, {
+const response = await fetch(`${API_URL}/nearby-gyms`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
