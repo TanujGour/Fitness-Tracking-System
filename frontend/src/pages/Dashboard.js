@@ -421,11 +421,18 @@ const fetchNearbyGyms = async (lat, lon) => {
     `;
 
     const response = await fetch("https://overpass-api.de/api/interpreter", {
-      method: "POST",
-      body: query,
-    });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  body: `data=${encodeURIComponent(query)}`,
+});
 
-    const result = await response.json();
+    if (!response.ok) {
+  throw new Error("Overpass API request failed");
+}
+
+const result = await response.json();
 
     const gyms = result.elements
       .map((place) => {
@@ -533,7 +540,7 @@ const requestLocationAndFindGyms = () => {
   <div className="dashboard-container dashboard-overview-page">
     <section className="premium-dashboard-hero">
       <div>
-        <span className="dashboard-badge">Premium Fitness Overview</span>
+        <span className="dashboard-badge">Fitness Overview</span>
         <h1>Welcome back, {username}</h1>
         <p>
           Track your progress, review today’s performance, and continue your
