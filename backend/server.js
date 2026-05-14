@@ -441,6 +441,7 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
+// ---------- NEARBY GYMS ----------
 app.post("/nearby-gyms", async (req, res) => {
   try {
     const { lat, lon } = req.body;
@@ -457,37 +458,58 @@ app.post("/nearby-gyms", async (req, res) => {
         node["leisure"="fitness_centre"](around:${radius},${lat},${lon});
         way["leisure"="fitness_centre"](around:${radius},${lat},${lon});
         relation["leisure"="fitness_centre"](around:${radius},${lat},${lon});
+        node["sport"="fitness"](around:${radius},${lat},${lon});
+        way["sport"="fitness"](around:${radius},${lat},${lon});
         node["amenity"="gym"](around:${radius},${lat},${lon});
         way["amenity"="gym"](around:${radius},${lat},${lon});
       );
       out center tags;
     `;
 
-    const overpassRes = await fetch("https://overpass-api.openstreetmap.ru/api/interpreter", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-    "User-Agent": "FitnessTrainingManagementSystem/1.0 (fitness app project)"
-  },
-  body: `data=${encodeURIComponent(query)}`
-});
+    const endpoints = [
+      "https://overpass.kumi.systems/api/interpreter",
+      "https://overpass-api.de/api/interpreter",
+      "https://overpass.openstreetmap.ru/api/interpreter",
+    ];
 
-const text = await overpassRes.text();
+    let lastError = "";
 
-if (!overpassRes.ok) {
-  console.error("Overpass failed:", overpassRes.status, text.slice(0, 300));
-  return res.status(500).send("Map database request failed");
-}
+    for (const endpoint of endpoints) {
+      try {
+        const overpassRes = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "application/json",
+            "User-Agent":
+              "FitnessTrainingManagementSystem/1.0 contact:tanujgour23@gmail.com",
+          },
+          body: `data=${encodeURIComponent(query)}`,
+        });
 
-let data;
+        const text = await overpassRes.text();
 
-try {
-  data = JSON.parse(text);
-} catch (parseError) {
-  console.error("Overpass returned non-JSON:", text.slice(0, 300));
-  return res.status(500).send("Map database returned invalid response");
-}
-res.json(data);
+        if (!overpassRes.ok) {
+          lastError = `${endpoint} failed: ${overpassRes.status} ${text.slice(0, 150)}`;
+          console.error(lastError);
+          continue;
+        }
+
+        try {
+          const data = JSON.parse(text);
+          return res.json(data);
+        } catch (parseError) {
+          lastError = `${endpoint} returned non-JSON: ${text.slice(0, 150)}`;
+          console.error(lastError);
+          continue;
+        }
+      } catch (endpointError) {
+        lastError = `${endpoint} error: ${endpointError.message}`;
+        console.error(lastError);
+      }
+    }
+
+    return res.status(500).send(lastError || "All map database servers failed");
   } catch (err) {
     console.error("Nearby gyms error:", err.message);
     res.status(500).send("Failed to fetch nearby gyms");
