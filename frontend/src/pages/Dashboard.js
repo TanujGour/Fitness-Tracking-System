@@ -13,7 +13,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line, Bar, Doughnut } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import {
   FaWalking,
   FaFire,
@@ -298,7 +298,7 @@ function Dashboard() {
     [fitnessData, labels]
   );
 
-  const goalChartData = {
+ /* const goalChartData = {
     labels: ["Achieved", "Remaining"],
     datasets: [
       {
@@ -307,9 +307,9 @@ function Dashboard() {
         borderWidth: 0,
       },
     ],
-  };
+  };*/
 
-  const weeklyStreak = fitnessData.length >= 7 ? 7 : fitnessData.length;
+  //const weeklyStreak = fitnessData.length >= 7 ? 7 : fitnessData.length;
 
   const achievements = [
     { title: "First Record", unlocked: totalRecords >= 1 },
