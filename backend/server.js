@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const { OAuth2Client } = require("google-auth-library");
+const axios = require("axios");
 require("dotenv").config();
 
 const app = express();
@@ -462,22 +463,20 @@ app.post("/nearby-gyms", async (req, res) => {
       out center tags;
     `;
 
-    const response = await fetch("https://overpass-api.de/api/interpreter", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `data=${encodeURIComponent(query)}`,
-    });
+    const response = await axios.post(
+      "https://overpass-api.de/api/interpreter",
+      `data=${encodeURIComponent(query)}`,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        timeout: 30000,
+      }
+    );
 
-    if (!response.ok) {
-      return res.status(500).send("Failed to fetch gyms from map database");
-    }
-
-    const data = await response.json();
-    res.json(data);
+    res.json(response.data);
   } catch (err) {
-    console.error("Nearby gyms error:", err);
+    console.error("Nearby gyms error:", err.response?.data || err.message);
     res.status(500).send("Failed to fetch nearby gyms");
   }
 });
