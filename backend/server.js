@@ -440,7 +440,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-// ---------- NEARBY GYMS ----------
+
 app.post("/nearby-gyms", async (req, res) => {
   try {
     const { lat, lon } = req.body;
@@ -463,20 +463,32 @@ app.post("/nearby-gyms", async (req, res) => {
       out center tags;
     `;
 
-    const response = await axios.post(
-      "https://overpass-api.de/api/interpreter",
-      `data=${encodeURIComponent(query)}`,
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        timeout: 30000,
-      }
-    );
+    const overpassRes = await fetch("https://overpass.kumi.systems/api/interpreter", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  body: `data=${encodeURIComponent(query)}`
+});
 
-    res.json(response.data);
+const text = await overpassRes.text();
+
+if (!overpassRes.ok) {
+  console.error("Overpass failed:", overpassRes.status, text.slice(0, 300));
+  return res.status(500).send("Map database request failed");
+}
+
+let data;
+
+try {
+  data = JSON.parse(text);
+} catch (parseError) {
+  console.error("Overpass returned non-JSON:", text.slice(0, 300));
+  return res.status(500).send("Map database returned invalid response");
+}
+res.json(data);
   } catch (err) {
-    console.error("Nearby gyms error:", err.response?.data || err.message);
+    console.error("Nearby gyms error:", err.message);
     res.status(500).send("Failed to fetch nearby gyms");
   }
 });
