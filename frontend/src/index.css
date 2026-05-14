@@ -1411,3 +1411,75 @@ td {
 .dashboard-page.dark-theme .hero-section p {
   color: #fff7ed !important;
 }
+/* ========== FINAL LIGHT / DARK READABILITY FIX ========== */
+
+/* LIGHT MODE */
+.dashboard-page.light-theme .hero-section {
+  background: rgba(255, 247, 237, 0.9) !important;
+  border: 1px solid rgba(120, 53, 15, 0.25) !important;
+}
+
+.dashboard-page.light-theme .hero-section h1,
+.dashboard-page.light-theme .hero-section p {
+  color: #3b2414 !important;
+  text-shadow: none !important;
+}
+
+.dashboard-page.light-theme .goal-box {
+  background: #fff7ed !important;
+  color: #3b2414 !important;
+  border: 1px solid rgba(120, 53, 15, 0.25) !important;
+}
+
+.dashboard-page.light-theme .goal-box h3,
+.dashboard-page.light-theme .goal-box p {
+  color: #3b2414 !important;
+  text-shadow: none !important;
+}
+
+.dashboard-page.light-theme .user-pill {
+  background: #fff7ed !important;
+  color: #3b2414 !important;
+  border: 1px solid rgba(120, 53, 15, 0.25) !important;
+}
+
+/* DARK MODE */
+.dashboard-page.dark-theme .hero-section {
+  background: rgba(16, 10, 7, 0.88) !important;
+  border: 1px solid rgba(212, 163, 115, 0.35) !important;
+}
+
+.dashboard-page.dark-theme .hero-section h1,
+.dashboard-page.dark-theme .hero-section p {
+  color: #fff7ed !important;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.55) !important;
+}
+
+.dashboard-page.dark-theme .goal-box {
+  background: rgba(255, 247, 237, 0.96) !important;
+  color: #3b2414 !important;
+  border: 1px solid rgba(212, 163, 115, 0.45) !important;
+}
+
+.dashboard-page.dark-theme .goal-box h3,
+.dashboard-page.dark-theme .goal-box p {
+  color: #3b2414 !important;
+  text-shadow: none !important;
+}
+
+.dashboard-page.dark-theme .user-pill {
+  background: rgba(255, 247, 237, 0.12) !important;
+  color: #fff7ed !important;
+  border: 1px solid rgba(212, 163, 115, 0.35) !important;
+}
+
+/* Theme button readable */
+.dashboard-page.light-theme .theme-btn {
+  background: #d97706 !important;
+  color: #111827 !important;
+}
+
+.dashboard-page.dark-theme .theme-btn {
+  background: #d97706 !important;
+  color: #111827 !important;
+}
