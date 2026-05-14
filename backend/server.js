@@ -463,10 +463,11 @@ app.post("/nearby-gyms", async (req, res) => {
       out center tags;
     `;
 
-    const overpassRes = await fetch("https://overpass.kumi.systems/api/interpreter", {
+    const overpassRes = await fetch("https://overpass-api.openstreetmap.ru/api/interpreter", {
   method: "POST",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
+    "User-Agent": "FitnessTrainingManagementSystem/1.0 (fitness app project)"
   },
   body: `data=${encodeURIComponent(query)}`
 });
