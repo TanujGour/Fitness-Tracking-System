@@ -398,291 +398,144 @@ function Dashboard() {
 </nav>
 
       {path === "/dashboard" && (
-      <div className="dashboard-container">
-        <section className="hero-section">
-          <div>
-            
-            <h1>Smart Fitness Dashboard</h1>
-            <p>Analyze progress, track health, plan workouts, and follow AI-powered insights.</p>
-          </div>
-          
-          <div className="goal-box">
-            <h3>Daily Goal</h3>
-            <p>{goal} steps</p>
-          </div>
-          
-        </section>
+  <div className="dashboard-container dashboard-overview-page">
+    <section className="premium-dashboard-hero">
+      <div>
+        <span className="dashboard-badge">Premium Fitness Overview</span>
+        <h1>Welcome back, {username}</h1>
+        <p>
+          Track your progress, review today’s performance, and continue your
+          fitness journey with smarter insights.
+        </p>
 
-        <section className="stats-grid">
-          <div className="stat-card purple">
-            <h3><FaWalking /> Total Steps</h3>
-            <p>{totalSteps}</p>
-          </div>
-          <div className="stat-card blue">
-            <h3><FaFire /> Total Calories</h3>
-            <p>{totalCalories}</p>
-          </div>
-          <div className="stat-card green">
-            <h3>Records Added</h3>
-            <p>{totalRecords}</p>
-          </div>
-          <div className="stat-card orange">
-            <h3>Average Steps</h3>
-            <p>{avgSteps}</p>
-          </div>
-        </section>
-
-        <section className="main-grid">
-          <div className="left-panel">
-            <div className="glass-card">
-              <h2>Add Daily Fitness Record</h2>
-              <div className="form-row">
-                <input
-                  type="number"
-                  placeholder="Enter steps"
-                  value={steps}
-                  onChange={(e) => setSteps(e.target.value)}
-                />
-                <input
-                  type="number"
-                  placeholder="Enter calories"
-                  value={calories}
-                  onChange={(e) => setCalories(e.target.value)}
-                />
-                <button className="primary-btn" onClick={addData}>
-                  Add Data
-                </button>
-              </div>
-            </div>
-
-            <div className="charts-grid">
-              <div className="glass-card chart-card">
-                <h2>Steps Progress</h2>
-                <Line data={stepsChartData} />
-              </div>
-
-              <div className="glass-card chart-card">
-                <h2>Calories Analysis</h2>
-                <Bar data={caloriesChartData} />
-              </div>
-            </div>
-
-            <div className="glass-card">
-              <h2><FaClipboardList /> Workout Planner</h2>
-              <div className="form-row">
-                <input
-                  type="text"
-                  placeholder="Add workout task"
-                  value={plannerTask}
-                  onChange={(e) => setPlannerTask(e.target.value)}
-                />
-                <button className="primary-btn" onClick={addPlannerTask}>
-                  Add Plan
-                </button>
-              </div>
-
-              <ul className="planner-list">
-                {planner.map((task) => (
-                  <li key={task._id}>
-                    <span className={task.completed ? "task-completed" : ""}>{task.title}</span>
-                    <div className="planner-actions">
-                      <button onClick={() => togglePlannerTask(task._id)}>
-                        {task.completed ? "Undo" : "Done"}
-                      </button>
-                      <button onClick={() => deletePlannerTask(task._id)}>Remove</button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="glass-card">
-              <h2><FaAppleAlt /> Meal Planner</h2>
-              <div className="form-row">
-                <input
-                  type="text"
-                  placeholder="Meal title"
-                  value={mealTitle}
-                  onChange={(e) => setMealTitle(e.target.value)}
-                />
-                <input
-                  type="number"
-                  placeholder="Calories"
-                  value={mealCalories}
-                  onChange={(e) => setMealCalories(e.target.value)}
-                />
-                <select value={mealType} onChange={(e) => setMealType(e.target.value)} className="styled-select">
-                  <option>Breakfast</option>
-                  <option>Lunch</option>
-                  <option>Dinner</option>
-                  <option>Snack</option>
-                </select>
-                <button className="primary-btn" onClick={addMeal}>
-                  Add Meal
-                </button>
-              </div>
-
-              <ul className="planner-list">
-                {meals.map((meal) => (
-                  <li key={meal._id}>
-                    <span>
-                      {meal.title} - {meal.calories} cal ({meal.mealType})
-                    </span>
-                    <button onClick={() => deleteMeal(meal._id)}>Remove</button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="glass-card ai-chat-card">
-              <h2><FaRobot /> AI Fitness Chatbot</h2>
-              <div className="chat-box">
-                {chatMessages.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`chat-message ${msg.sender === "user" ? "user-msg" : "ai-msg"}`}
-                  >
-                    {msg.text}
-                  </div>
-                ))}
-              </div>
-
-              <div className="form-row">
-                <input
-                  type="text"
-                  placeholder="Ask about workout, water, sleep, BMI, meals..."
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                />
-                <button className="primary-btn" onClick={sendChat}>
-                  Send
-                </button>
-              </div>
-            </div>
-
-            <div className="glass-card">
-              <h2>Recent Fitness Records</h2>
-              {fitnessData.length === 0 ? (
-                <p>No data found yet</p>
-              ) : (
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Steps</th>
-                      <th>Calories</th>
-                      <th>Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {fitnessData.map((item) => (
-                      <tr key={item._id}>
-                        <td>{item.steps}</td>
-                        <td>{item.calories}</td>
-                        <td>{new Date(item.date).toLocaleString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
-          </div>
-
-          <div className="right-panel">
-            <div className="glass-card ai-card">
-              <h2><FaRobot /> AI Recommendation</h2>
-              <p>{aiRecommendation()}</p>
-            </div>
-
-            <div className="glass-card tip-card">
-              <h2><FaTint /> Water Tracker</h2>
-              <p>{hydrationTip()}</p>
-              <div className="water-controls">
-                <button onClick={() => setWaterCount(Math.max(waterCount - 1, 0))}>-</button>
-                <span>{waterCount} glasses</span>
-                <button onClick={() => setWaterCount(waterCount + 1)}>+</button>
-              </div>
-            </div>
-
-            <div className="glass-card sleep-card">
-              <h2><FaBed /> Sleep Tracker</h2>
-              <input
-                type="number"
-                placeholder="Sleep hours"
-                value={sleepHours}
-                onChange={(e) => setSleepHours(e.target.value)}
-              />
-              <button className="primary-btn full-btn" onClick={saveHealthLog}>
-                Save Health Log
-              </button>
-              <p>Last saved sleep: {latestSleep} hrs</p>
-              <p>Last saved water: {latestWater} glasses</p>
-            </div>
-
-            <div className="glass-card progress-card">
-              <h2>Goal Progress</h2>
-              <div className="goal-chart-wrap">
-                <Doughnut data={goalChartData} />
-              </div>
-              <p>{avgSteps} / {goal} average steps</p>
-            </div>
-
-            <div className="glass-card bmi-card">
-              <h2><FaCalculator /> BMI Calculator</h2>
-              <input
-                type="number"
-                placeholder="Weight (kg)"
-                value={weight}
-                onChange={(e) => setWeight(e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Height (cm)"
-                value={height}
-                onChange={(e) => setHeight(e.target.value)}
-              />
-              <button className="primary-btn full-btn" onClick={calculateBMI}>
-                Calculate BMI
-              </button>
-
-              {bmi && (
-                <div className="bmi-result">
-                  <h3>BMI: {bmi}</h3>
-                  <p>Status: {bmiStatus()}</p>
-                </div>
-              )}
-            </div>
-
-            <div className="glass-card streak-card">
-              <h2><FaTrophy /> Weekly Streak</h2>
-              <p>{weeklyStreak} active day(s) recorded</p>
-              <div className="badge-grid">
-                {achievements.map((badge, index) => (
-                  <div
-                    key={index}
-                    className={`badge-card ${badge.unlocked ? "unlocked" : "locked"}`}
-                  >
-                    {badge.title}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="glass-card quick-metrics">
-              <h2>Quick Insights</h2>
-              <ul>
-                <li>Average Calories: {avgCalories}</li>
-                <li>Latest Steps: {latestSteps}</li>
-                <li>Workout Consistency: {totalRecords >= 5 ? "Strong" : "Improving"}</li>
-                <li>Suggested Goal: {avgSteps < 7000 ? "8,000+" : "10,000+"}</li>
-                <li>Meals Added: {meals.length}</li>
-              </ul>
-            </div>
-            
-          </div>
-          
-        </section>
+        <div className="dashboard-quick-actions">
+          <Link to="/activity" className="quick-action-btn">Add Activity</Link>
+          <Link to="/health" className="quick-action-btn">Health Tracker</Link>
+          <Link to="/planner" className="quick-action-btn">Planner</Link>
+          <Link to="/ai" className="quick-action-btn">AI Coach</Link>
+        </div>
       </div>
-      )}
+
+      <div className="premium-goal-card">
+        <h3>Daily Goal</h3>
+        <p>{goal} steps</p>
+        <div className="goal-mini-bar">
+          <span style={{ width: `${Math.min((avgSteps / goal) * 100, 100)}%` }}></span>
+        </div>
+        <small>{avgSteps} average steps completed</small>
+      </div>
+    </section>
+
+    <section className="premium-stat-grid">
+      <div className="premium-stat-card">
+        <h3><FaWalking /> Total Steps</h3>
+        <p>{totalSteps}</p>
+        <span>Across all records</span>
+      </div>
+
+      <div className="premium-stat-card">
+        <h3><FaFire /> Total Calories</h3>
+        <p>{totalCalories}</p>
+        <span>Calories burned</span>
+      </div>
+
+      <div className="premium-stat-card">
+        <h3>Records Added</h3>
+        <p>{totalRecords}</p>
+        <span>Fitness entries saved</span>
+      </div>
+
+      <div className="premium-stat-card">
+        <h3>Average Steps</h3>
+        <p>{avgSteps}</p>
+        <span>Daily average progress</span>
+      </div>
+    </section>
+
+    <section className="premium-dashboard-grid">
+      <div className="glass-card premium-chart-preview">
+        <div className="section-title-row">
+          <div>
+            <h2>Steps Preview</h2>
+            <p>Recent step progress summary</p>
+          </div>
+          <Link to="/activity" className="small-link-btn">View Activity</Link>
+        </div>
+        <Line data={stepsChartData} />
+      </div>
+
+      <div className="glass-card premium-ai-panel">
+        <h2><FaRobot /> Smart Recommendation</h2>
+        <p>{aiRecommendation()}</p>
+
+        <div className="ai-mini-insights">
+          <div>
+            <strong>{latestWater}</strong>
+            <span>Water</span>
+          </div>
+          <div>
+            <strong>{latestSleep}</strong>
+            <span>Sleep</span>
+          </div>
+          <div>
+            <strong>{meals.length}</strong>
+            <span>Meals</span>
+          </div>
+        </div>
+
+        <Link to="/ai" className="quick-action-btn full-width-action">
+          Open AI Coach
+        </Link>
+      </div>
+    </section>
+
+    <section className="premium-dashboard-grid">
+      <div className="glass-card recent-records-card">
+        <div className="section-title-row">
+          <div>
+            <h2>Recent Records</h2>
+            <p>Your latest fitness activity entries</p>
+          </div>
+          <Link to="/activity" className="small-link-btn">View All</Link>
+        </div>
+
+        {fitnessData.length === 0 ? (
+          <p>No data found yet.</p>
+        ) : (
+          <div className="recent-record-list">
+            {fitnessData.slice(-3).reverse().map((item) => (
+              <div className="recent-record-item" key={item._id}>
+                <div>
+                  <strong>{item.steps} steps</strong>
+                  <span>{item.calories} calories</span>
+                </div>
+                <small>{new Date(item.date).toLocaleDateString()}</small>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="glass-card premium-next-plan">
+        <h2><FaClipboardList /> Next Focus</h2>
+        <p>
+          {planner.find((task) => !task.completed)?.title ||
+            "Add a workout plan to stay consistent."}
+        </p>
+
+        <div className="dashboard-mini-list">
+          <span>Workout tasks: {planner.length}</span>
+          <span>Meals added: {meals.length}</span>
+          <span>Health logs: {healthLogs.length}</span>
+        </div>
+
+        <Link to="/planner" className="quick-action-btn full-width-action">
+          Open Planner
+        </Link>
+      </div>
+    </section>
+  </div>
+)}
 
      {path === "/activity" && (
   <div className="dashboard-container page-feature-section">
