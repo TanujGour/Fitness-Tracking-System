@@ -420,16 +420,15 @@ const fetchNearbyGyms = async (lat, lon) => {
       out center tags;
     `;
 
-    const response = await fetch("https://overpass-api.de/api/interpreter", {
+    const response = await fetch(`${API_URL}/nearby-gyms`, {
   method: "POST",
   headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
+    "Content-Type": "application/json",
   },
-  body: `data=${encodeURIComponent(query)}`,
+  body: JSON.stringify({ lat, lon }),
 });
-
-    if (!response.ok) {
-  throw new Error("Overpass API request failed");
+if (!response.ok) {
+  throw new Error("Failed to fetch gyms");
 }
 
 const result = await response.json();

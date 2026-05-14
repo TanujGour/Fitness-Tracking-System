@@ -439,6 +439,48 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+// ---------- NEARBY GYMS ----------
+app.post("/nearby-gyms", async (req, res) => {
+  try {
+    const { lat, lon } = req.body;
+
+    if (!lat || !lon) {
+      return res.status(400).send("Latitude and longitude are required");
+    }
+
+    const radius = 5000;
+
+    const query = `
+      [out:json][timeout:25];
+      (
+        node["leisure"="fitness_centre"](around:${radius},${lat},${lon});
+        way["leisure"="fitness_centre"](around:${radius},${lat},${lon});
+        relation["leisure"="fitness_centre"](around:${radius},${lat},${lon});
+        node["amenity"="gym"](around:${radius},${lat},${lon});
+        way["amenity"="gym"](around:${radius},${lat},${lon});
+      );
+      out center tags;
+    `;
+
+    const response = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `data=${encodeURIComponent(query)}`,
+    });
+
+    if (!response.ok) {
+      return res.status(500).send("Failed to fetch gyms from map database");
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Nearby gyms error:", err);
+    res.status(500).send("Failed to fetch nearby gyms");
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
